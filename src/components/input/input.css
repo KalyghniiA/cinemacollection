@@ -1,0 +1,29 @@
+.input {
+    font-size: 14px;
+    color: var(--text-color-1);
+    border: 1px solid #475069;
+    border-radius: 12px;
+    background: none;
+    padding: 23px 16px;
+    line-height: 16px;
+    width: 384px;
+}
+
+.input:focus, .input:hover {
+    border-color: var(--text-color-1);
+    outline: none;
+}
+
+.input::placeholder {
+    color: #475069;
+}
+
+.input__search {
+    padding-left: 56px;
+}
+
+.input__search-icon {
+    position: absolute;
+    top: 20px;
+    left: 16px;
+}
