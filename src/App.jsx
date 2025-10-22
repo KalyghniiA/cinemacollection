@@ -39,16 +39,7 @@ function App() {
 						text={"Введите название фильма, сериала или мультфильма для поиска и добавления в избранное."}
 					/>
 					<SearchForm>
-						<Input
-							className={"input__search"}
-							type={"text"}
-							name="search"
-							placeholder={"Введите название"}
-						/>
-						<Button
-							text={"Искать"}
-							className={""}
-						/>
+
 					</SearchForm>
 				</BodySection>
 				<Button text={"text"} className={"button"}/>

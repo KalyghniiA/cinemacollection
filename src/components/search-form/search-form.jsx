@@ -1,7 +1,9 @@
 import "./search-form.css";
 import {useState} from "react";
+import Input from "../input/input.jsx";
+import Button from "../button/button.jsx";
 
-const SearchForm = ({children}) => {
+const SearchForm = () => {
 	const [formData, setFormData] = useState(undefined);
 
 	const useSubmit = (e) => {
@@ -12,7 +14,18 @@ const SearchForm = ({children}) => {
 
 	return (
 		<form className="search-form" onSubmit={useSubmit}>
-			{children}
+			<Input
+				className={"input__search"}
+				type={"text"}
+				name="search"
+				placeholder={"Введите название"}
+
+			/>
+			<Button
+				text={"Искать"}
+				type={"submit"}
+				className={""}
+			/>
 		</form>
 	);
 };
