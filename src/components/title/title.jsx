@@ -2,7 +2,7 @@ import "./title.css";
 
 const Title = ({text, className}) => {
 	return (
-		<h1 className={`header ${className}`}>{text}</h1>
+		<h1 className={`title ${className}`}>{text}</h1>
 	);
 };
 
