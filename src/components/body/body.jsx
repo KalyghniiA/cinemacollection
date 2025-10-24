@@ -1,8 +1,8 @@
-import "./body.css";
+import {body} from "./body.module.css";
 
 const Body = ({children}) => {
 	return (
-		<main className={"body"}>
+		<main className={body}>
 			{children}
 		</main>
 	);

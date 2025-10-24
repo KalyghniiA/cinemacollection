@@ -1,8 +1,8 @@
-import "./card-list.css";
+import styles from "./card-list.module.css";
 
 const CardList = ({children}) => {
 	return (
-		<section className="card-list">{children}</section>
+		<section className={styles["card-list"]}>{children}</section>
 	);
 };
 

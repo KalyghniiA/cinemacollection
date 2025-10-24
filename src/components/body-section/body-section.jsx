@@ -1,8 +1,8 @@
-import "./body-section.css";
+import styles from "./body-section.module.css";
 
 const BodySection = ({ children }) => {
 	return (
-		<section className="body-section">
+		<section className={styles["body-section"]}>
 			{children}
 		</section>
 	);
