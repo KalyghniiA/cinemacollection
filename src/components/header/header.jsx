@@ -1,8 +1,8 @@
-import "./header.css";
+import {header} from "./header.module.css";
 
 const Header = ({children}) => {
 	return (
-		<header className="header">
+		<header className={header}>
 			{children}
 		</header>
 	);

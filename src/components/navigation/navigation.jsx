@@ -1,15 +1,36 @@
-import "./navigation.css";
+import "./navigation.module.css";
+import cn from "classnames";
+import styles from "./navigation.module.css";
+import {useState} from "react";
 
-const Navigation = ({favoriteCount, onClick, children}) => {
+const Navigation = ({favoriteCount, onClick, isLogin, userName}) => {
+	const [loginStatus, setLoginStatus] = useState(isLogin);
+
+	const useLogout = () => {
+		setLoginStatus(false);
+	};
 
 	return (
-		<nav className="navigation">
-			<button className="navigation__button navigation__button--active" onClick={onClick}>Поиск фильмов</button>
-			<button className={"navigation__button"} onClick={onClick}>
+		<nav className={styles["navigation"]}>
+			<button className={cn(styles["navigation__button"], styles["navigation__button--active"])} onClick={onClick}>Поиск фильмов</button>
+			<button className={styles["navigation__button"]} onClick={onClick}>
                 Мои фильмы
-				{favoriteCount > 0 ? <span className={"navigation__favorite-count"}>{favoriteCount}</span> : null}
+				{favoriteCount > 0 ? <span className={styles["navigation__favorite-count"]}>{favoriteCount}</span> : null}
 			</button>
-			{children}
+			{loginStatus ?
+				<>
+					<buttuon className={cn(styles["navigation__button"], styles["navigation__button--user"])}>
+						{userName}
+						<img src="/public/user.svg" alt="user" />
+					</buttuon>
+					<button className={styles["navigation__button"]} onClick={useLogout}>
+						Выйти
+					</button>
+				</> :
+				<button className={cn(styles["navigation__button"], styles["navigation__button--login"])}>
+					Войти
+					<img src="/public/login.svg" alt="login" />
+				</button>}
 		</nav>
 	);
 };

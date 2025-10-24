@@ -1,4 +1,4 @@
-import "./search-form.css";
+import styles from "./search-form.module.css";
 import {useState} from "react";
 import Input from "../input/input.jsx";
 import Button from "../button/button.jsx";
@@ -13,7 +13,7 @@ const SearchForm = () => {
 	};
 
 	return (
-		<form className="search-form" onSubmit={useSubmit}>
+		<form className={styles["search-form"]} onSubmit={useSubmit}>
 			<Input
 				className={"input__search"}
 				type={"text"}
@@ -24,7 +24,6 @@ const SearchForm = () => {
 			<Button
 				text={"Искать"}
 				type={"submit"}
-				className={""}
 			/>
 		</form>
 	);
