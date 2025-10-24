@@ -1,4 +1,3 @@
-import "./navigation.module.css";
 import cn from "classnames";
 import styles from "./navigation.module.css";
 import {useState} from "react";
@@ -19,10 +18,10 @@ const Navigation = ({favoriteCount, onClick, isLogin, userName}) => {
 			</button>
 			{loginStatus ?
 				<>
-					<buttuon className={cn(styles["navigation__button"], styles["navigation__button--user"])}>
+					<button className={cn(styles["navigation__button"], styles["navigation__button--user"])}>
 						{userName}
 						<img src="/public/user.svg" alt="user" />
-					</buttuon>
+					</button>
 					<button className={styles["navigation__button"]} onClick={useLogout}>
 						Выйти
 					</button>
