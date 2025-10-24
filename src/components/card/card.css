@@ -1,0 +1,67 @@
+.card {
+    width: 282px;
+    background-color: var(--background-color-card);
+    border-radius: 12px;
+    padding: 8px 8px 32px 8px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 24px;
+}
+
+.card:hover {
+    transform: scale(1.15);
+    transition: 500ms;
+    z-index: 3;
+}
+
+.card__img {
+    width: 266px;
+    height: 400px;
+    margin: 0 auto;
+}
+
+.card__rating {
+    display: block;
+    background-color: rgba(0, 0, 0, 0.65);
+    width: max-content;
+    color: var(--text-color-rating-card);
+    padding: 4px 4px 4px 28px;
+    border-radius: 8px;
+    position: absolute;
+    top: 16px;
+    left: 16px;
+}
+
+.card__rating::before {
+    content: url("/public/star.png");
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 6px;
+    left: 8px;
+}
+
+.card__title {
+    color: var(--text-color-1);
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.card__btn {
+    background: none;
+    border: none;
+    color: var(--text-color-favorite-disable);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 8px;
+    font-weight: 600;
+}
+
+.card__btn--favorite {
+    color: var(--text-color-favorite-active);
+}
+
+

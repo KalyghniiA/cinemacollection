@@ -6,6 +6,9 @@
     font-weight: 400;
     line-height: 24px;
     --background-color: rgba(18, 24, 41, 1);
+    --background-color-card: rgba(32, 40, 62, 0.8);
+    --background-color-button: #7B6EF6;
+    --background-color-button-hover: rgba(80, 81, 249, 0.8);
     --text-color-1: #EBEEF5;
     --text-color-2: #8E95A9;
     --text-color-3: #C3C8D4;
@@ -13,9 +16,8 @@
     --text-color-button-disable: #A8AEBF;
     --text-color-favorite-disable: rgba(123, 110, 246, 0.98);
     --text-color-favorite-active: #37D8A7;
-    --text-color-rating: #37D8A7;
-    --background-color-button: #7B6EF6;
-    --background-color-button-hover: rgba(80, 81, 249, 0.8);
+    --text-color-rating-header: #37D8A7;
+    --text-color-rating-card: #FFAD49;
 }
 
 body {
