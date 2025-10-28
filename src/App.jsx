@@ -272,7 +272,13 @@ function App() {
 						text={"Введите название фильма, сериала или мультфильма для поиска и добавления в избранное."}
 					/>
 					<SearchForm />
-					<LoginForm onLogin={setUserData} />
+					<>
+						<Title
+							text={"Вход"}
+						/>
+						<LoginForm onLogin={setUserData} />
+					</>
+
 				</BodySection>
 				<>
 					<CardList>
