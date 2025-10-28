@@ -6,7 +6,6 @@ const Card = ({props, setData}) => {
 
 	const onClick = () => {
 		setData(id);
-
 	};
 
 	return (
