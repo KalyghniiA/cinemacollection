@@ -8,8 +8,10 @@ import Navigation from "./components/navigation/navigation.jsx";
 import BodySection from "./components/body-section/body-section.jsx";
 import SearchForm from "./components/search-form/search-form.jsx";
 import Card from "./components/card/card.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CardList from "./components/card-list/card-list.jsx";
+import {useLogin} from "./hooks/useLogin.js";
+import LoginForm from "./components/login-form/login-form.jsx";
 
 function App() {
 
@@ -19,7 +21,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: false,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -35,7 +36,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: false,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -50,7 +50,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: false,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -65,7 +64,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: false,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -80,7 +78,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: false,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -95,7 +92,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: false,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -110,7 +106,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: false,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -125,7 +120,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: false,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -140,7 +134,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: false,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -155,7 +148,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: false,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -170,7 +162,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: true,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -185,7 +176,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: false,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -200,7 +190,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: true,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -215,7 +204,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: false,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -230,7 +218,6 @@ function App() {
 			name: "Black Widow",
 			url: "/public/BlackWidow.png",
 			rating: 324,
-			isFavorite: true,
 			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
 				"\n" +
 				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
@@ -245,20 +232,21 @@ function App() {
 
 	];
 
-	const [stateData, setStateData] = useState(data);
-	const [favoriteCount, setFavoriteCount] = useState(data.reduce((acc, item) => {
-		if (item.isFavorite) acc++;
-		return acc;
-	}, 0));
+	const [favoriteCount, setFavoriteCount] = useState(0);
+	const [userData, setUserData] = useLogin();
 
-	const updateFavorite = (id) => {
-		setStateData([...stateData.map(item => {
-			if (item.id === id) {
-				item.isFavorite = !item.isFavorite;
-				item.isFavorite ? setFavoriteCount(favoriteCount + 1) : setFavoriteCount(favoriteCount - 1);
-			}
-			return item;
-		})]);
+	useEffect(() => {
+		if (userData && userData.favorite) {
+			setFavoriteCount(userData.favorite.length);
+		}
+	},[userData]);
+
+	const handleFavorite = (id) => {
+		if (userData && userData.favorite) {
+			userData.favorite.find(item => item === id)
+				? setUserData({type: "REMOVE_FAVORITE", payload: id})
+				: setUserData({type: "ADD_FAVORITE", payload: id});
+		}
 
 	};
 
@@ -269,8 +257,9 @@ function App() {
 				<Navigation
 					favoriteCount={favoriteCount}
 					onClick={() => console.log("!")}
-					isLogin={false}
-					userName={""} />
+					userName={userData.name}
+					dispatchLogin={setUserData}
+				/>
 			</Header>
 			<Body>
 				<BodySection>
@@ -283,12 +272,19 @@ function App() {
 						text={"Введите название фильма, сериала или мультфильма для поиска и добавления в избранное."}
 					/>
 					<SearchForm />
+					<>
+						<Title
+							text={"Вход"}
+						/>
+						<LoginForm onLogin={setUserData} />
+					</>
+
 				</BodySection>
 				<>
 					<CardList>
-						{stateData.map(item => <Card
+						{data.map(item => <Card
 							props={item} key={item.id}
-							setData={updateFavorite}
+							setData={handleFavorite}
 						/>)}
 					</CardList>
 				</>

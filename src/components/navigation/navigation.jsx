@@ -1,12 +1,20 @@
 import cn from "classnames";
 import styles from "./navigation.module.css";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
-const Navigation = ({favoriteCount, onClick, isLogin, userName}) => {
-	const [loginStatus, setLoginStatus] = useState(isLogin);
+const Navigation = ({favoriteCount, onClick, userName, dispatchLogin}) => {
+	const [loginStatus, setLoginStatus] = useState(false);
+
+	useEffect(() => {
+		if (userName) {
+			setLoginStatus(true);
+		}
+	},[userName]);
 
 	const useLogout = () => {
 		setLoginStatus(false);
+		dispatchLogin({type:"LOGOUT"});
+		localStorage.removeItem("user");
 	};
 
 	return (
