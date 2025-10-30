@@ -1,14 +1,14 @@
 import {useEffect, useReducer} from "react";
-import {reducer} from "../states/login-form.state.js";
+import {reducerLogin} from "../states/login-form.state.js";
 
 const INITIAL_STATE = {
-	name: undefined,
+	name: "",
 	favorite: []
 };
 
 
 export const useLogin = () => {
-	const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+	const [state, dispatch] = useReducer(reducerLogin, INITIAL_STATE);
 
 	useEffect(() => {
 		const data = JSON.parse(localStorage.getItem("user"));
