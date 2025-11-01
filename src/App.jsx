@@ -8,10 +8,11 @@ import Navigation from "./components/navigation/navigation.jsx";
 import BodySection from "./components/body-section/body-section.jsx";
 import SearchForm from "./components/search-form/search-form.jsx";
 import Card from "./components/card/card.jsx";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import CardList from "./components/card-list/card-list.jsx";
 import {useLogin} from "./hooks/useLogin.js";
 import LoginForm from "./components/login-form/login-form.jsx";
+import {UserContext, UserContextProvider} from "./context/user.context.jsx";
 
 function App() {
 
@@ -233,32 +234,30 @@ function App() {
 	];
 
 	const [favoriteCount, setFavoriteCount] = useState(0);
-	const [userData, setUserData] = useLogin();
+	const {state, dispatch} = useContext(UserContext);
 
 	useEffect(() => {
-		if (userData && userData.favorite) {
-			setFavoriteCount(userData.favorite.length);
+		if (state && state.favorite) {
+			setFavoriteCount(state.favorite.length);
 		}
-	},[userData]);
+	},[state]);
 
 	const handleFavorite = (id) => {
-		if (userData && userData.favorite) {
-			userData.favorite.find(item => item === id)
-				? setUserData({type: "REMOVE_FAVORITE", payload: id})
-				: setUserData({type: "ADD_FAVORITE", payload: id});
+		if (state && state.favorite) {
+			state.favorite.find(item => item === id)
+				? dispatch({type: "REMOVE_FAVORITE", payload: id})
+				: dispatch({type: "ADD_FAVORITE", payload: id});
 		}
 
 	};
 
 	return (
-		<>
+		<UserContextProvider>
 			<Header>
 				<Logo/>
 				<Navigation
 					favoriteCount={favoriteCount}
 					onClick={() => console.log("!")}
-					userName={userData.name}
-					dispatchLogin={setUserData}
 				/>
 			</Header>
 			<Body>
@@ -276,7 +275,7 @@ function App() {
 						<Title
 							text={"Вход"}
 						/>
-						<LoginForm onLogin={setUserData} />
+						<LoginForm />
 					</>
 
 				</BodySection>
@@ -290,7 +289,7 @@ function App() {
 				</>
 			</Body>
 
-		</>
+		</UserContextProvider>
 	);
 }
 

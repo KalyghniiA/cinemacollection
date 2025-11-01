@@ -1,12 +1,14 @@
 import styles from "./card.module.css";
 import cn from "classnames";
 
+
 const Card = ({props, setData}) => {
 	const {name, rating, url, isFavorite, id} = props;
 
 	const onClick = () => {
 		setData(id);
 	};
+
 
 	return (
 		<article className={styles.card}>
@@ -24,5 +26,7 @@ const Card = ({props, setData}) => {
 		</article>
 	);
 };
+
+
 
 export default Card;

@@ -1,19 +1,21 @@
 import cn from "classnames";
 import styles from "./navigation.module.css";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {UserContext} from "../../context/user.context.jsx";
 
-const Navigation = ({favoriteCount, onClick, userName, dispatchLogin}) => {
+const Navigation = ({favoriteCount, onClick}) => {
 	const [loginStatus, setLoginStatus] = useState(false);
+	const {state, dispatch} = useContext(UserContext);
 
 	useEffect(() => {
-		if (userName) {
+		if (state.name) {
 			setLoginStatus(true);
 		}
-	},[userName]);
+	},[state]);
 
 	const useLogout = () => {
 		setLoginStatus(false);
-		dispatchLogin({type:"LOGOUT"});
+		dispatch({type:"LOGOUT"});
 		localStorage.removeItem("user");
 	};
 
@@ -27,7 +29,7 @@ const Navigation = ({favoriteCount, onClick, userName, dispatchLogin}) => {
 			{loginStatus ?
 				<>
 					<button className={cn(styles["navigation__button"], styles["navigation__button--user"])}>
-						{userName}
+						{state.name}
 						<img src="/public/user.svg" alt="user" />
 					</button>
 					<button className={styles["navigation__button"]} onClick={useLogout}>

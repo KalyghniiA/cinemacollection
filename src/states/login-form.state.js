@@ -1,5 +1,5 @@
 
-export const reducer = (state, action) => {
+export const reducerLogin = (state, action) => {
 	switch (action.type) {
 	case "LOGIN":
 		return {
