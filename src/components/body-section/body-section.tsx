@@ -1,11 +1,12 @@
 import styles from "./body-section.module.css";
+import type {BodySectionProps} from "./body-section.props.ts";
 
-const BodySection = ({ children }) => {
+function BodySection ({ children }: BodySectionProps) {
 	return (
 		<section className={styles["body-section"]}>
 			{children}
 		</section>
 	);
-};
+}
 
 export default BodySection;

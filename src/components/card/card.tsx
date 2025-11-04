@@ -1,24 +1,25 @@
 import styles from "./card.module.css";
 import cn from "classnames";
+import type {CardProps} from "./card.props.ts";
 
 
-const Card = ({props, setData}) => {
-	const {name, rating, url, isFavorite, id} = props;
+function Card ({...props}: CardProps ) {
+	const {data, setData} = props;
 
 	const onClick = () => {
-		setData(id);
+		setData(data.id);
 	};
 
 
 	return (
 		<article className={styles.card}>
-			<img src={url} alt={name} className={styles["card__img"]} />
-			<span className={styles["card__rating"]}>{rating}</span>
-			<p className={styles["card__title"]}>{name}</p>
+			<img src={data.url} alt={data.name} className={styles["card__img"]} />
+			<span className={styles["card__rating"]}>{data.rating}</span>
+			<p className={styles["card__title"]}>{data.name}</p>
 			<button className={cn(styles["card__btn"], {
-				[styles["card__btn--favorite"]]: isFavorite
+				[styles["card__btn--favorite"]]: data.isFavorite
 			})} onClick={onClick}>
-				{isFavorite
+				{data.isFavorite
 					? <><img src="/public/bookmark-favorite.png" alt="" />В избранном</>
 					: <><img src="/public/like.png" alt="" />В избранное</>
 				}

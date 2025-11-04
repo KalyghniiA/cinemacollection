@@ -1,6 +1,7 @@
 import styles from "./card-list.module.css";
+import type {CardListProps} from "./card-list.props.ts";
 
-const CardList = ({children}) => {
+function CardList ({children}: CardListProps) {
 	return (
 		<section className={styles["card-list"]}>{children}</section>
 	);
