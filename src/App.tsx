@@ -1,293 +1,47 @@
 import "./App.css";
-import Title from "./components/title/title.tsx";
-import Description from "./components/description/description.tsx";
-import Body from "./components/body/body.tsx";
-import Header from "./components/header/header.tsx";
-import Logo from "./components/logo/logo.tsx";
-import Navigation from "./components/navigation/navigation.tsx";
-import BodySection from "./components/body-section/body-section.tsx";
-import SearchForm from "./components/search-form/search-form.tsx";
-import Card from "./components/card/card.tsx";
-import {useContext, useEffect, useState} from "react";
-import CardList from "./components/card-list/card-list.tsx";
-import LoginForm from "./components/login-form/login-form.tsx";
-import UserContextProvider, {UserContext} from "./context/user.context.tsx";
-import {ActionPoints} from "./states/login-form.state.ts";
+import UserContextProvider from "./context/user.context.tsx";
+import {NotFound} from "./pages/not-found/not-found.tsx";
+import {Layout} from "./layout/Layout.tsx";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {Main} from "./pages/main/main.tsx";
+import {Favorite} from "./pages/favorite/favorite.tsx";
+import {Item} from "./pages/item/item.tsx";
+import {Login} from "./pages/login/login.tsx";
+
+
+const router = createBrowserRouter([
+	{
+		path: "/",
+		element: <Layout />,
+		children: [
+			{
+				path: "/",
+				element: <Main />
+			},
+			{
+				path: "/favorites",
+				element: <Favorite />
+			},
+			{
+				path: "/movie/:id",
+				element: <Item />
+			},
+			{
+				path: "/login",
+				element: <Login />
+			},
+			{
+				path: "*",
+				element: <NotFound />
+			}
+		]
+	}
+]);
 
 function App() {
-
-	const data = [
-		{
-			id: 1,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		},
-		{
-			id: 2,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		},{
-			id: 3,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		},{
-			id: 4,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		},{
-			id: 5,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		},{
-			id: 6,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		},{
-			id: 7,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		},{
-			id: 8,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		},{
-			id: 9,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		},{
-			id: 10,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		},{
-			id: 11,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		},{
-			id: 12,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		},{
-			id: 13,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		},{
-			id: 14,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		},{
-			id: 15,
-			name: "Black Widow",
-			url: "/public/BlackWidow.png",
-			rating: 324,
-			description: "orem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at lectus orci. Aliquam vel sagittis ex. Maecenas in diam condimentum, hendrerit turpis id, bibendum ex. Aliquam cursus nisi magna, ut ultrices urna faucibus pulvinar. Ut fermentum consequat tortor, vel scelerisque quam condimentum nec. Morbi id porttitor quam, eget consequat leo. Vestibulum malesuada non quam faucibus malesuada. Proin rutrum, lectus sit amet egestas pretium, metus lorem commodo lorem, dictum commodo elit neque ac magna. Phasellus ultrices sollicitudin dui facilisis commodo. Nullam augue lacus, dapibus eget aliquam id, vestibulum eu dui. Integer id pretium velit. Duis maximus erat id egestas efficitur.\n" +
-				"\n" +
-				"Phasellus non dignissim tellus. Phasellus rhoncus sapien ante, eget pharetra augue pulvinar nec. Integer dapibus ipsum nec efficitur imperdiet. Vestibulum interdum magna sit amet lacinia tempor. Curabitur tincidunt eros ut pulvinar interdum. Aliquam blandit dictum arcu, sed volutpat nibh sodales vitae. Phasellus ultricies nisi est, in sollicitudin quam rhoncus eget. Praesent velit mi, laoreet sit amet pretium non, luctus sed ipsum.\n" +
-				"\n" +
-				"Vivamus tempus lorem eget ornare mattis. Fusce sed diam justo. Aliquam facilisis laoreet metus fermentum euismod. In et ullamcorper ipsum. Duis quam orci, rhoncus eget faucibus pretium, tempor eu tortor. Suspendisse in aliquam massa, vitae posuere felis. Curabitur in elit dignissim elit iaculis porttitor ut et magna. Nullam eu mi ligula. Nullam a ante vestibulum, pharetra enim in, lobortis nibh. Maecenas vitae odio tristique, posuere nisi at, elementum ante. Integer nisi justo, facilisis quis maximus quis, fringilla non massa. Fusce tellus velit, ornare vel laoreet et, sollicitudin eget sapien. Morbi rutrum massa purus, at sagittis lacus viverra eget. Phasellus tristique tempor est, blandit pharetra quam sodales eget. Morbi blandit aliquam gravida.\n" +
-				"\n" +
-				"Praesent tristique orci nec ligula venenatis, volutpat mollis sapien mollis. Donec dapibus rutrum risus ut sollicitudin. Etiam ligula nunc, malesuada nec arcu vel, ornare efficitur nibh. Aenean vel neque felis. Donec malesuada, sapien molestie porttitor pharetra, urna turpis consectetur purus, ac mollis orci lorem rhoncus dui. Proin et lacinia purus. Nullam tristique sodales eleifend. Mauris lobortis nisl libero, non tincidunt nulla facilisis vitae. Aenean suscipit eros nibh, a mollis libero facilisis ac. Praesent mollis nulla venenatis, mollis nulla ut, commodo turpis. Suspendisse eget vestibulum eros, vitae consequat diam. Sed elit est, tempus ut ante eget, consectetur pellentesque tortor. Quisque nisi mauris, volutpat pellentesque varius interdum, porta eu tellus. Fusce ex nisi, placerat vel dui sit amet, porta molestie purus.\n" +
-				"\n" +
-				"Cras tempor ac libero et fringilla. Nulla consectetur, ante et ornare pulvinar, lacus odio semper ex, porta efficitur lectus leo vitae leo. Nam vestibulum ligula in nibh ultricies lacinia. Integer commodo id sapien sit amet viverra. Nunc ut sagittis sem. Maecenas sit amet eleifend turpis. Nunc justo mi, efficitur vel sapien sed, lacinia aliquet sem. Morbi a nisi blandit sapien malesuada aliquet id ut arcu. Mauris pulvinar, ligula eu sagittis iaculis, massa mauris fermentum odio, vitae vehicula lorem eros sed lectus. Proin vel tortor eget augue finibus viverra. Aliquam dapibus orci elit, vitae consequat ex posuere molestie. Sed gravida metus eu dui convallis dictum. Cras molestie ante lectus, eget congue."
-		}
-
-
-	];
-
-	const [favoriteCount, setFavoriteCount] = useState(0);
-	const {state, dispatch} = useContext(UserContext);
-
-	useEffect(() => {
-		if (state && state.favorite) {
-			setFavoriteCount(state.favorite.length);
-		}
-	},[state]);
-
-	const handleFavorite = (id: number) => {
-		if (dispatch && state && state.favorite) {
-			state.favorite.find(item => item === id)
-				? dispatch({type: ActionPoints.REMOVE_FAVORITE, payload: id})
-				: dispatch({type: ActionPoints.ADD_FAVORITE, payload: id});
-		}
-
-	};
-
 	return (
 		<UserContextProvider>
-			<Header>
-				<Logo/>
-				<Navigation
-					favoriteCount={favoriteCount}
-					onClick={() => console.log("!")}
-				/>
-			</Header>
-			<Body>
-				<BodySection>
-					<Title>
-						Поиск
-					</Title>
-					<Description>
-						Введите название фильма, сериала или мультфильма для поиска и добавления в избранное.
-					</Description>
-
-					<SearchForm />
-					<>
-						<Title>
-							Вход
-						</Title>
-						<LoginForm />
-					</>
-
-				</BodySection>
-				<>
-					<CardList>
-						{data.map(item => <Card
-							data={{...item, isFavorite: false}} key={item.id}
-							setData={handleFavorite}
-						/>)}
-					</CardList>
-				</>
-			</Body>
-
+			<RouterProvider router={router}/>
 		</UserContextProvider>
 	);
 }
