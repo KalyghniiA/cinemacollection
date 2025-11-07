@@ -1,7 +1,10 @@
 import styles from "./input.module.css";
 import cn from "classnames";
+import type {InputProps} from "./input.props.ts";
 
-const Input = ({className, type, name, placeholder, ref}) => {
+function Input ({className,ref, ...props}: InputProps) {
+
+
 	return (
 		<>
 			{className === "input__search"
@@ -9,15 +12,13 @@ const Input = ({className, type, name, placeholder, ref}) => {
 				: ""
 			}
 			<input
-				className={cn(styles["input"], {[styles["input__search"]]: className === "input__search"})}
-				type={type}
-				name={name}
-				id={name}
-				placeholder={placeholder}
-				ref={ref} />
+				className={cn(styles.input, {[styles["input__search"]]: className === "input__search"})}
+				ref={ref}
+				{...props}
+			/>
 		</>
 
 	);
-};
+}
 
 export default Input;

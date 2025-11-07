@@ -1,14 +1,18 @@
 import styles from "./search-form.module.css";
-import {useState} from "react";
-import Input from "../input/input.jsx";
-import Button from "../button/button.jsx";
+import {type FormEvent, useRef, useState} from "react";
+import Input from "../input/input.tsx";
+import Button from "../button/button.tsx";
 
 const SearchForm = () => {
-	const [formData, setFormData] = useState(undefined);
+	const [formData, setFormData] = useState<string>("");
+	const inputRef = useRef<HTMLInputElement>(null);
 
-	const useSubmit = (e) => {
+	const useSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		setFormData(new FormData(e.target));
+		const value = inputRef.current;
+		if (value) {
+			setFormData(value.value);
+		}
 		console.log(formData);
 	};
 
@@ -19,12 +23,11 @@ const SearchForm = () => {
 				type={"text"}
 				name="search"
 				placeholder={"Введите название"}
-
+				ref={inputRef}
 			/>
 			<Button
-				text={"Искать"}
 				type={"submit"}
-			/>
+			>Поиск</Button>
 		</form>
 	);
 };

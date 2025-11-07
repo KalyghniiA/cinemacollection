@@ -1,18 +1,18 @@
 import "./App.css";
-import Title from "./components/title/title.jsx";
-import Description from "./components/description/description.jsx";
-import Body from "./components/body/body.jsx";
-import Header from "./components/header/header.jsx";
-import Logo from "./components/logo/logo.jsx";
-import Navigation from "./components/navigation/navigation.jsx";
-import BodySection from "./components/body-section/body-section.jsx";
-import SearchForm from "./components/search-form/search-form.jsx";
-import Card from "./components/card/card.jsx";
+import Title from "./components/title/title.tsx";
+import Description from "./components/description/description.tsx";
+import Body from "./components/body/body.tsx";
+import Header from "./components/header/header.tsx";
+import Logo from "./components/logo/logo.tsx";
+import Navigation from "./components/navigation/navigation.tsx";
+import BodySection from "./components/body-section/body-section.tsx";
+import SearchForm from "./components/search-form/search-form.tsx";
+import Card from "./components/card/card.tsx";
 import {useContext, useEffect, useState} from "react";
-import CardList from "./components/card-list/card-list.jsx";
-import {useLogin} from "./hooks/useLogin.js";
-import LoginForm from "./components/login-form/login-form.jsx";
-import {UserContext, UserContextProvider} from "./context/user.context.jsx";
+import CardList from "./components/card-list/card-list.tsx";
+import LoginForm from "./components/login-form/login-form.tsx";
+import UserContextProvider, {UserContext} from "./context/user.context.tsx";
+import {ActionPoints} from "./states/login-form.state.ts";
 
 function App() {
 
@@ -242,11 +242,11 @@ function App() {
 		}
 	},[state]);
 
-	const handleFavorite = (id) => {
-		if (state && state.favorite) {
+	const handleFavorite = (id: number) => {
+		if (dispatch && state && state.favorite) {
 			state.favorite.find(item => item === id)
-				? dispatch({type: "REMOVE_FAVORITE", payload: id})
-				: dispatch({type: "ADD_FAVORITE", payload: id});
+				? dispatch({type: ActionPoints.REMOVE_FAVORITE, payload: id})
+				: dispatch({type: ActionPoints.ADD_FAVORITE, payload: id});
 		}
 
 	};
@@ -262,19 +262,18 @@ function App() {
 			</Header>
 			<Body>
 				<BodySection>
-					<Title
-						className={""}
-						text={"Поиск"}
-					/>
-					<Description
-						className={""}
-						text={"Введите название фильма, сериала или мультфильма для поиска и добавления в избранное."}
-					/>
+					<Title>
+						Поиск
+					</Title>
+					<Description>
+						Введите название фильма, сериала или мультфильма для поиска и добавления в избранное.
+					</Description>
+
 					<SearchForm />
 					<>
-						<Title
-							text={"Вход"}
-						/>
+						<Title>
+							Вход
+						</Title>
 						<LoginForm />
 					</>
 
@@ -282,7 +281,7 @@ function App() {
 				<>
 					<CardList>
 						{data.map(item => <Card
-							props={item} key={item.id}
+							data={{...item, isFavorite: false}} key={item.id}
 							setData={handleFavorite}
 						/>)}
 					</CardList>

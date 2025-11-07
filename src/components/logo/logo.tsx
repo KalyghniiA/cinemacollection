@@ -1,8 +1,8 @@
-import {logo} from  "./logo.module.css";
+import styles from  "./logo.module.css";
 
 const Logo = () => {
 	return (
-		<button className={logo} onClick={() => {}}>
+		<button className={styles.logo} onClick={() => {}}>
 			<img src="/public/bookmark.svg" alt="logo" />
 		</button>
 	);

@@ -1,9 +1,11 @@
 import cn from "classnames";
 import styles from "./navigation.module.css";
 import {useContext, useEffect, useState} from "react";
-import {UserContext} from "../../context/user.context.jsx";
+import {UserContext} from "../../context/user.context.tsx";
+import {ActionPoints} from "../../states/login-form.state.ts";
+import type {NavigationProps} from "./navigation.props.ts";
 
-const Navigation = ({favoriteCount, onClick}) => {
+const Navigation = ({favoriteCount, onClick}: NavigationProps) => {
 	const [loginStatus, setLoginStatus] = useState(false);
 	const {state, dispatch} = useContext(UserContext);
 
@@ -15,7 +17,7 @@ const Navigation = ({favoriteCount, onClick}) => {
 
 	const useLogout = () => {
 		setLoginStatus(false);
-		dispatch({type:"LOGOUT"});
+		if (dispatch) {dispatch({type: ActionPoints.LOGOUT})}
 		localStorage.removeItem("user");
 	};
 
@@ -24,7 +26,7 @@ const Navigation = ({favoriteCount, onClick}) => {
 			<button className={cn(styles["navigation__button"], styles["navigation__button--active"])} onClick={onClick}>Поиск фильмов</button>
 			<button className={styles["navigation__button"]} onClick={onClick}>
                 Мои фильмы
-				{favoriteCount > 0 ? <span className={styles["navigation__favorite-count"]}>{favoriteCount}</span> : null}
+				{favoriteCount && favoriteCount > 0 ? <span className={styles["navigation__favorite-count"]}>{favoriteCount}</span> : null}
 			</button>
 			{loginStatus ?
 				<>
