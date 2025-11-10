@@ -1,6 +1,7 @@
 import styles from "./card.module.css";
 import cn from "classnames";
 import type {CardProps} from "./card.props.ts";
+import {NavLink} from "react-router-dom";
 
 
 function Card ({...props}: CardProps ) {
@@ -12,7 +13,7 @@ function Card ({...props}: CardProps ) {
 
 
 	return (
-		<article className={styles.card}>
+		<NavLink to={`/movie/${data.id}`} className={styles.card}>
 			<img src={data.url} alt={data.name} className={styles["card__img"]} />
 			<span className={styles["card__rating"]}>{data.rating}</span>
 			<p className={styles["card__title"]}>{data.name}</p>
@@ -24,9 +25,9 @@ function Card ({...props}: CardProps ) {
 					: <><img src="/public/like.png" alt="" />В избранное</>
 				}
 			</button>
-		</article>
+		</NavLink>
 	);
-};
+}
 
 
 
