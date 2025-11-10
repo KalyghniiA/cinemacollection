@@ -1,13 +1,7 @@
-export interface CardProps {
-    data: CardData;
-    setData: (id: number) => void;
-}
+import type {CardDataInterface} from "../../interfaces/CardData.interface.ts";
 
-export interface CardData {
-    id: number,
-    name: string,
-    rating: number,
-    url: string,
-    isFavorite: boolean,
-    description: string,
+export interface CardProps {
+    data: CardDataInterface;
+    isFavorite?: boolean;
+    setData: (id: string) => void;
 }

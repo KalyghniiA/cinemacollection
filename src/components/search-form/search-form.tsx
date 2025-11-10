@@ -1,19 +1,19 @@
 import styles from "./search-form.module.css";
-import {type FormEvent, useRef, useState} from "react";
+import {type FormEvent, useRef} from "react";
 import Input from "../input/input.tsx";
 import Button from "../button/button.tsx";
+import type {SearchFormProps} from "./search-form.props.ts";
 
-const SearchForm = () => {
-	const [formData, setFormData] = useState<string>("");
+const SearchForm = ({setSearchValue}:SearchFormProps) => {
 	const inputRef = useRef<HTMLInputElement>(null);
+
 
 	const useSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		const value = inputRef.current;
-		if (value) {
-			setFormData(value.value);
+		if (inputRef.current) {
+			setSearchValue(inputRef.current.value);
+			inputRef.current.value = "";
 		}
-		console.log(formData);
 	};
 
 	return (

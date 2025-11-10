@@ -1,5 +1,8 @@
-import type {HTMLAttributes, ReactNode} from "react";
+import type {HTMLAttributes} from "react";
+import type {CardDataInterface} from "../../interfaces/CardData.interface.ts";
 
 export interface CardListProps extends HTMLAttributes<HTMLDivElement> {
-    children: ReactNode;
+    data: CardDataInterface[];
+    isLoading: boolean;
+    isError: boolean;
 }
