@@ -1,6 +1,5 @@
 import "./App.css";
 import UserContextProvider from "./context/user.context.tsx";
-import {NotFound} from "./pages/not-found/not-found.tsx";
 import {Layout} from "./layout/Layout.tsx";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {Main} from "./pages/main/main.tsx";
@@ -10,6 +9,7 @@ import axios from "axios";
 import {API} from "./helpers/API.ts";
 import {lazy} from "react";
 import {Error} from "./components/error/error.tsx";
+import {NotFound} from "./pages/not-found/not-found.tsx";
 
 const Item = lazy(() => import("./pages/item/item.tsx"));
 

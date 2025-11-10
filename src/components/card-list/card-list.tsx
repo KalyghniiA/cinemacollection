@@ -1,10 +1,11 @@
 import styles from "./card-list.module.css";
 import type {CardListProps} from "./card-list.props.ts";
 import Title from "../title/title.tsx";
-import {Error} from "../error/error.tsx";
+import {NotResult} from "../not-result/not-result.tsx";
 import {ActionPoints} from "../../states/login-form.state.ts";
 import {lazy, useContext, useEffect, useState} from "react";
 import {UserContext} from "../../context/user.context.tsx";
+import {Error} from "../error/error.tsx";
 const Card = lazy(() => import("../../components/card/card.tsx"));
 function CardList ({data, isLoading, isError}: CardListProps) {
 
@@ -44,12 +45,14 @@ function CardList ({data, isLoading, isError}: CardListProps) {
 		<section className={styles["card-list"]}>
 			{isLoading
 				? <Title>Загрузка</Title>
-				: isError || data.length === 0
+				: isError
 					? <Error />
-					: data.map((item, index) =>
-						index < visibleElement && (<Card
-							data={{...item}} isFavorite={false} key={item["#IMDB_ID"]}
-							setData={handleFavorite} />))
+					: data.length === 0
+						? <NotResult />
+						: data.map((item, index) =>
+							index < visibleElement && (<Card
+								data={{...item}} isFavorite={false} key={item["#IMDB_ID"]}
+								setData={handleFavorite} />))
 
 			}
 		</section>
