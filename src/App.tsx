@@ -1,13 +1,17 @@
 import "./App.css";
 import UserContextProvider from "./context/user.context.tsx";
-import {NotFound} from "./pages/not-found/not-found.tsx";
 import {Layout} from "./layout/Layout.tsx";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {Main} from "./pages/main/main.tsx";
 import {Favorite} from "./pages/favorite/favorite.tsx";
-import {Item} from "./pages/item/item.tsx";
 import {Login} from "./pages/login/login.tsx";
+import axios from "axios";
+import {API} from "./helpers/API.ts";
+import {lazy} from "react";
+import {Error} from "./components/error/error.tsx";
+import {NotFound} from "./pages/not-found/not-found.tsx";
 
+const Item = lazy(() => import("./pages/item/item.tsx"));
 
 const router = createBrowserRouter([
 	{
@@ -17,6 +21,7 @@ const router = createBrowserRouter([
 			{
 				path: "/",
 				element: <Main />
+
 			},
 			{
 				path: "/favorites",
@@ -24,7 +29,12 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/movie/:id",
-				element: <Item />
+				element: <Item />,
+				errorElement: <Error />,
+				loader: async ({params}) => {
+					const { data } = await axios.get(`${API}/?tt=${params.id}`);
+					return data;
+				}
 			},
 			{
 				path: "/login",
@@ -38,7 +48,10 @@ const router = createBrowserRouter([
 	}
 ]);
 
+
+
 function App() {
+
 	return (
 		<UserContextProvider>
 			<RouterProvider router={router}/>

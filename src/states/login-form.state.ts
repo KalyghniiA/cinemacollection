@@ -1,6 +1,6 @@
 export interface UserContextProps {
 	name: string;
-	favorite: number[]
+	favorite: string[]
 }
 
 export enum ActionPoints {
@@ -21,10 +21,10 @@ export type ActionType = {
 	type: ActionPoints.LOGOUT
 } | {
 	type: ActionPoints.ADD_FAVORITE;
-	payload: number
+	payload: string
 } | {
 	type: ActionPoints.REMOVE_FAVORITE;
-	payload: number
+	payload: string
 }
 
 export const reducerLogin = (state: UserContextProps, action: ActionType):UserContextProps => {

@@ -5,22 +5,22 @@ import {NavLink} from "react-router-dom";
 
 
 function Card ({...props}: CardProps ) {
-	const {data, setData} = props;
+	const {data, setData, isFavorite} = props;
 
 	const onClick = () => {
-		setData(data.id);
+		setData(data["#IMDB_ID"]);
 	};
 
 
 	return (
-		<NavLink to={`/movie/${data.id}`} className={styles.card}>
-			<img src={data.url} alt={data.name} className={styles["card__img"]} />
-			<span className={styles["card__rating"]}>{data.rating}</span>
-			<p className={styles["card__title"]}>{data.name}</p>
+		<NavLink to={`/movie/${data["#IMDB_ID"]}`} className={styles.card}>
+			<img src={data["#IMG_POSTER"]} alt={data["#TITLE"]} className={styles["card__img"]} />
+			<span className={styles["card__rating"]}>{data["#RANK"]}</span>
+			<p className={styles["card__title"]}>{data["#TITLE"]}</p>
 			<button className={cn(styles["card__btn"], {
-				[styles["card__btn--favorite"]]: data.isFavorite
+				[styles["card__btn--favorite"]]: isFavorite
 			})} onClick={onClick}>
-				{data.isFavorite
+				{isFavorite
 					? <><img src="/public/bookmark-favorite.png" alt="" />В избранном</>
 					: <><img src="/public/like.png" alt="" />В избранное</>
 				}
