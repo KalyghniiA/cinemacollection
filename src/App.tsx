@@ -10,6 +10,7 @@ import {API} from "./helpers/API.ts";
 import {lazy} from "react";
 import {Error} from "./components/error/error.tsx";
 import {NotFound} from "./pages/not-found/not-found.tsx";
+import {RequireAuth} from "./helpers/require-auth.tsx";
 
 const Item = lazy(() => import("./pages/item/item.tsx"));
 
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/favorites",
-				element: <Favorite />
+				element: <RequireAuth><Favorite /></RequireAuth>
 			},
 			{
 				path: "/movie/:id",

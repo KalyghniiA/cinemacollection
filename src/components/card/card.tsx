@@ -1,19 +1,28 @@
 import styles from "./card.module.css";
 import cn from "classnames";
 import type {CardProps} from "./card.props.ts";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
+import type {MouseEvent} from "react";
 
 
 function Card ({...props}: CardProps ) {
 	const {data, setData, isFavorite} = props;
+	const navigate = useNavigate();
 
-	const onClick = () => {
+	const onClick = (e: MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		const jwt = localStorage.getItem("jwt");
+		if (!jwt) {
+			navigate("/login");
+			return;
+		}
+		console.log(data["#IMDB_ID"])
 		setData(data["#IMDB_ID"]);
 	};
 
 
 	return (
-		<NavLink to={`/movie/${data["#IMDB_ID"]}`} className={styles.card}>
+		<NavLink to={`/movie/${data["#IMDB_ID"]}`} className={styles.card} >
 			<img src={data["#IMG_POSTER"]} alt={data["#TITLE"]} className={styles["card__img"]} />
 			<span className={styles["card__rating"]}>{data["#RANK"]}</span>
 			<p className={styles["card__title"]}>{data["#TITLE"]}</p>
