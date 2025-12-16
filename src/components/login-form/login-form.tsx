@@ -15,6 +15,7 @@ const LoginForm = () => {
 		e.preventDefault();
 		if (inputRef.current && context.dispatch) {
 			context.dispatch({type:ActionPoints.LOGIN, payload:inputRef.current.value});
+			localStorage.setItem("jwt", inputRef.current.value);
 			navigate("/");
 		}
 	};

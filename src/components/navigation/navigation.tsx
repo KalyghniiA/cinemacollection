@@ -20,6 +20,7 @@ const Navigation = ({favoriteCount}: NavigationProps) => {
 		setLoginStatus(false);
 		if (dispatch) {dispatch({type: ActionPoints.LOGOUT})}
 		localStorage.removeItem("user");
+		localStorage.removeItem("jwt");
 	};
 
 	return (
