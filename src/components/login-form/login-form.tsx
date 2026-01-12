@@ -1,21 +1,22 @@
 import styles from "./login-form.module.css";
 import Input from "../input/input.tsx";
 import Button from "../button/button.tsx";
-import {type FormEvent, useContext, useRef} from "react";
-import {UserContext} from "../../context/user.context.tsx";
-import {ActionPoints} from "../../states/login-form.state.ts";
+import {type FormEvent, useRef} from "react";
 import {useNavigate} from "react-router-dom";
+import {useAppDispatch} from "../../store/store.ts";
+import {userSlice} from "../../store/user.slice.ts";
 
 const LoginForm = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
-	const context = useContext(UserContext);
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
 	const onSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		if (inputRef.current && context.dispatch) {
-			context.dispatch({type:ActionPoints.LOGIN, payload:inputRef.current.value});
-			localStorage.setItem("jwt", inputRef.current.value);
+
+		if (inputRef.current && inputRef.current.value.trim() !== "") {
+			const name = inputRef.current.value;
+			dispatch(userSlice.actions.login({name}));
 			navigate("/");
 		}
 	};

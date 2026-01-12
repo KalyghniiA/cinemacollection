@@ -11,6 +11,8 @@ import {lazy} from "react";
 import {Error} from "./components/error/error.tsx";
 import {NotFound} from "./pages/not-found/not-found.tsx";
 import {RequireAuth} from "./helpers/require-auth.tsx";
+import {Provider} from "react-redux";
+import {store} from "./store/store.ts";
 
 const Item = lazy(() => import("./pages/item/item.tsx"));
 
@@ -55,7 +57,7 @@ function App() {
 
 	return (
 		<UserContextProvider>
-			<RouterProvider router={router}/>
+			<Provider store={store}><RouterProvider router={router}/></Provider>
 		</UserContextProvider>
 	);
 }

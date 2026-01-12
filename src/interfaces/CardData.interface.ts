@@ -15,7 +15,6 @@ export interface CardDataInterface {
 export interface CardDataDetailsInterface {
     short: Short
     imdbId: string
-
 }
 
 export interface Short {

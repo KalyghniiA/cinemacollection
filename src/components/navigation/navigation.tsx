@@ -1,26 +1,18 @@
 import cn from "classnames";
 import styles from "./navigation.module.css";
-import {useContext, useEffect, useState} from "react";
-import {UserContext} from "../../context/user.context.tsx";
-import {ActionPoints} from "../../states/login-form.state.ts";
-import type {NavigationProps} from "./navigation.props.ts";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../store/store.ts";
+import {userSlice} from "../../store/user.slice.ts";
 
-const Navigation = ({favoriteCount}: NavigationProps) => {
-	const [loginStatus, setLoginStatus] = useState(false);
-	const {state, dispatch} = useContext(UserContext);
-
-	useEffect(() => {
-		if (state.name) {
-			setLoginStatus(true);
-		}
-	},[state]);
+const Navigation = () => {
+	const favoriteCount = useAppSelector(userSlice.selectors.favoritesCounters);
+	const userName = useAppSelector(userSlice.selectors.getName);
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	const useLogout = () => {
-		setLoginStatus(false);
-		if (dispatch) {dispatch({type: ActionPoints.LOGOUT})}
-		localStorage.removeItem("user");
-		localStorage.removeItem("jwt");
+		dispatch(userSlice.actions.logout());
+		navigate("/");
 	};
 
 	return (
@@ -30,10 +22,10 @@ const Navigation = ({favoriteCount}: NavigationProps) => {
                 Мои фильмы
 				{favoriteCount && favoriteCount > 0 ? <span className={styles["navigation__favorite-count"]}>{favoriteCount}</span> : null}
 			</NavLink>
-			{loginStatus ?
+			{userName ?
 				<>
 					<p className={cn(styles["navigation__button"], styles["navigation__button--user"])}>
-						{state.name}
+						{userName}
 						<img src="/public/user.svg" alt="user" />
 					</p>
 					<button className={styles["navigation__button"]} onClick={useLogout}>

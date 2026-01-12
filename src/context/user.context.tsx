@@ -13,7 +13,6 @@ interface IContext {
 
 const INITIAL_STATE: IContext = {
 	state: {name: "",
-	favorite: []
 	},
 	dispatch: undefined
 }

@@ -1,6 +1,5 @@
 export interface UserContextProps {
 	name: string;
-	favorite: string[]
 }
 
 export enum ActionPoints {
@@ -38,24 +37,13 @@ export const reducerLogin = (state: UserContextProps, action: ActionType):UserCo
 		return {
 			...state,
 			name: action.payload.name,
-			favorite: [...state.favorite, ...action.payload.favorite]
+
 		};
 	case "LOGOUT":
 		return {
-			name: "",
-			favorite: []
+			name: ""
 		};
-	case "ADD_FAVORITE": 
-		return {
-			...state,
-			favorite:[...state.favorite, action.payload]
-		};
-	case "REMOVE_FAVORITE":
-		return {
-			...state,
-			favorite: state.favorite.filter(item => item !== action.payload)
-		};
-		default:
+	default:
 			throw new Error("Unknown action type: " + action.type);
 	}
 };
