@@ -1,1 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
+:root {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    --background-color: rgba(18, 24, 41, 1);
+    --background-color-card: rgba(32, 40, 62, 0.8);
+    --background-color-button: #7B6EF6;
+    --background-color-button-hover: rgba(80, 81, 249, 0.8);
+    --text-color-1: #EBEEF5;
+    --text-color-2: #8E95A9;
+    --text-color-3: #C3C8D4;
+    --text-color-button-active: #FFFFFF;
+    --text-color-button-disable: #A8AEBF;
+    --text-color-favorite-disable: rgba(123, 110, 246, 0.98);
+    --text-color-favorite-active: #37D8A7;
+    --text-color-rating-header: #37D8A7;
+    --text-color-rating-card: #FFAD49;
+}
+
+body {
+    background-color: var(--background-color);
+    background-image: url("/public/Background.png");
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}

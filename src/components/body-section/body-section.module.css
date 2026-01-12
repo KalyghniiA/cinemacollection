@@ -1,0 +1,7 @@
+.body-section {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    max-width: 588px;
+    margin-bottom: 80px;
+}

@@ -1,0 +1,38 @@
+.navigation {
+    display: flex;
+    column-gap: 16px;
+    align-items: center;
+}
+
+.navigation__button {
+    border: none;
+    padding: 12px 16px;
+    color: var(--text-color-button-disable);
+    background: none;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    font-size: 16px;
+}
+
+.navigation__button:hover, .navigation__button:focus {
+    color: var(--text-color-button-active);
+    border: 1px solid var(--text-color-button-disable);
+    border-radius: 5px;
+    padding: 11px 15px;
+}
+
+.navigation__button--active {
+    color: var(--text-color-button-active);
+}
+
+.navigation__favorite-count {
+    display: flex;
+    background-color: var(--background-color-button);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color-1);
+}
